@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <style>
+    button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      display: inline-block;
+    }
+
+    .upload_field {
+  margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 50px;
+    }
+    
+
+    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <ul class="navbar">
+      <li class="nav-item">
+      {% load static %}
+      <a href="{% url 'home' %}"><img class="logo" src="{% static 'css/img/png-apple-logo-9718.png' %}" alt="Logo Placeholder"></a>
+        </li>
+      <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="nav-item"><a href="{% url 'about' %}">About</a></li>
+      <li class="nav-item"><a href="#services">Services</a></li>
+      <li class="nav-item"><a href="#contact">Contact</a></li>
+    </ul>
+  
+  <center><h1> Welcome to my Upload Page   </h1></center>
+
+  <!-- <h1>Upload Document</h1> -->
+
+  
+  <div class="upload_field">
+    <form action="{% url 'upload_document' %}"  method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <label>Username </label>
+      <input type="text" name="username"><br>
+
+      <p class="upload_box"><label> Please upload a file </label> {{ form.file }} </p>
+
+      <p><input type="submit" value="Upload"/></p>
+      <!-- <button type="submit">Upload</button> -->
+  </form>
+
+  </div>
+</div>
+
+  </body>
+  </html>

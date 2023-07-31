@@ -1,0 +1,32 @@
+<!-- templates/success.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Success</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <ul class="navbar">
+        <li class="nav-item">
+        {% load static %}
+        <a href="{% url 'home' %}"><img class="logo" src="{% static 'css/img/png-apple-logo-9718.png' %}" alt="Logo Placeholder"></a>
+          </li>
+        <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a href="{% url 'about' %}">About</a></li>
+        <li class="nav-item"><a href="#services">Services</a></li>
+        <li class="nav-item"><a href="#contact">Contact</a></li>
+      </ul>
+    {% csrf_token %}
+    <h2>File Uploaded Successfully!</h2>
+    <p><a href="{% url 'upload_document' %}">Upload another file</a></p>
+
+    {% for data1 in data %}
+        <h2>{{ data1.username }}</h2>
+        <h3>{{ data1.document }}</h3>
+
+    {% endfor %}
+    <!-- Add any success message you want to display -->
+    <!-- <h4>data</h4> -->
+</body>
+</html>

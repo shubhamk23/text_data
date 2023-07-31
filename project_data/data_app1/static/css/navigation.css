@@ -1,0 +1,32 @@
+/* Basic styling for the navigation bar */
+body{
+  background-color: aqua;
+}
+ul.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #9827ab;
+  overflow: hidden;
+}
+
+li.nav-item {
+  float: left;
+}
+
+li.nav-item a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li.nav-item a:hover {
+  background-color: #555;
+}
+        /* Style for the logo image */
+img.logo {
+  height: 40px; /* Adjust the height of the logo as needed */
+  padding: 5px;
+}

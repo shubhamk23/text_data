@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <!-- <style>
+        /* Add styles for the table and its cells */
+                table {
+            border-collapse: collapse; /* Collapse table borders to avoid double borders */
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black; /* Add a 1px solid black border to table header and data cells */
+            padding: 8px; /* Add some padding to cells for spacing */
+        }
+
+        th {
+            background-color: #f2f2f2; /* Set a background color for the table header cells */
+        }
+    </style> -->
+    
+</head>
+<body>
+    <ul class="navbar">
+        <li class="nav-item">
+        {% load static %}
+        <a href="{% url 'home' %}"><img class="logo" src="{% static 'css/img/png-apple-logo-9718.png' %}" alt="Logo Placeholder"></a>
+          </li>
+        <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a href="{% url 'about' %}">About</a></li>
+        <li class="nav-item"><a href="#services">Services</a></li>
+        <li class="nav-item"><a href="#contact">Contact</a></li>
+      </ul>
+    <h1>This is testing page for About Section</h1>
+
+    <h1>User Information Table Data</h1>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Status</th>
+        </tr>
+        {% for data in info %}
+        <tr>
+            <td>{{ data.first_name }}</td>
+            <td>{{ data.last_name }}</td>
+            <td>{{ data.dob }}</td>
+            <td>{{ data.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

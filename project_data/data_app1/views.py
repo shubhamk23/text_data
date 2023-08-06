@@ -1,8 +1,7 @@
 # https://ordinarycoders.com/blog/article/django-user-register-login-logout
-
-
-
+# https://github.com/HamzahSikandar/Django_Login_System/tree/main
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import user_info
@@ -73,4 +72,54 @@ def data_text(request):
     with open(filename, 'r') as file:
         content = file.read()
         print(content)
-    return render(request, 'data_file.html', {'data':content})    
+    return render(request, 'data_file.html', {'data':content})
+
+def SignupPage(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        pass1 = request.POST.get('password1')
+        pass2 = request.POST.get('password2')
+
+        print("username", username)
+
+        if pass1 != pass2:
+            return HttpResponse("Your password and confirm password is not same !! Please try again later")
+        else:
+
+            my_user= User.objects.create_user(username, email, pass1)
+            my_user.save()
+            return redirect('login')
+        
+    return render(request, 'signup.html')
+        
+def LoginPage(request):
+    user = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        print("Username:-", username)
+        pass1 = request.POST.get('pass')
+        print("Password is ", pass1)
+        user = authenticate(request, username=username, password=pass1)
+        print("Authenticating:- ", user)
+        if User.objects.filter(username=username, password=pass1):
+            print("User already Exist, please try to login.")
+            return render(request, "login.html")
+        else:
+            if user is not None:
+                login(request, user)
+                print("User authentication is successfully done")
+                return redirect("home")
+            else:
+                return HttpResponse ("Username or Password is incorrect !!!")
+    return render(request, "login.html", {'user_auth':user})
+
+def LogoutPage(request):
+    print("Calling Logout page")
+    result = logout(request)
+    print("Logout Successfully Done:- ", result)
+    return redirect('login')
+
+
+
+

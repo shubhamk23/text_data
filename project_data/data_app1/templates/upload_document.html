@@ -21,7 +21,6 @@
   padding: 50px;
     }
     
-
     </style>
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
@@ -48,7 +47,7 @@
       {% csrf_token %}
 
       <label>Username </label>
-      <input type="text" name="username"><br>
+      <input type="text" name="username" placeholder="Enter username"><br>
 
       <p class="upload_box"><label> Please upload a file </label> {{ form.file }} </p>
 

@@ -21,4 +21,6 @@ class document_save(models.Model):
     auto_increment_id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=100, null=True)
     document = models.FileField(upload_to='document/', null=True)
-    video_file = models.FileField(upload_to='video/', null=True)
+    video_file = models.FileField(upload_to='video/', null=True, blank=True)
+    # video_file = models.ArrayField(upload_to='video/', null=True)
+

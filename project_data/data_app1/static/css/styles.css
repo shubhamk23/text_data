@@ -81,3 +81,8 @@ body {
       height: 100%;
       cursor: pointer;
     }
+    .lang-icon{
+      position: absolute !important;
+      right: 0;
+      top: 0;
+    }

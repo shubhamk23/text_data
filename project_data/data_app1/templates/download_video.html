@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Video Download</title>
+</head>
+<body>
+    <ul class="navbar">
+        <li class="nav-item">
+        {% load static %}
+        <a href="{% url 'home' %}"><img class="logo" src="{% static 'css/img/png-apple-logo-9718.png' %}" alt="Logo Placeholder"></a>
+          </li>
+        <li class="nav-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a href="{% url 'about' %}">About</a></li>
+        <li class="nav-item"><a href="{% url 'song' %}">Songs</a></li>
+        <li class="nav-item"><a href="{% url 'downloadHome' %}">DownloadHome</a></li>
+        <!-- <li class="nav-item"><a href="{% url 'signup' %}">SignUp</a></li> -->
+        <!-- <li class="nav-item"><a href="{% url 'login' %}">Login</a></li> -->
+        <li class="nav-item"><a href="{% url 'logout' %}">Logout</a></li>
+
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+              <li class="lang-icon"> Welcome {{ user.username }} !!!</li>     
+        {% endif %}
+      </ul>
+
+
+    <h1> Video Downloading from Youtube Playlist</h1>
+    
+    
+    <div class="videoinput">
+        <form action="{% url 'download_video' %}" method="post">
+            {% csrf_token %} 
+            <label>Enter the URL</label>
+            <input type="text" placeholder="Enter URL" id="YoutubeURL" name="YoutubeURL">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    
+</body>
+</html>

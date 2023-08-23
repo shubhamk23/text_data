@@ -19,7 +19,10 @@
       </ul>
     {% csrf_token %}
     <h2>File Uploaded Successfully!</h2>
-    <p><a href="{% url 'upload_document' %}">Upload another file</a></p>
+    <!-- <p><a href="{% url 'upload_document' %}">Upload another file</a></p> -->
+    <form action="{% url 'upload_document' %}">
+      <button>Upload Another File</button>
+    </form>
 
     {% for data1 in data %}
         <h2>{{ data1.username }}</h2>

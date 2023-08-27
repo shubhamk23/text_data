@@ -1,9 +1,10 @@
 # https://ordinarycoders.com/blog/article/django-user-register-login-logout
 # https://github.com/HamzahSikandar/Django_Login_System/tree/main
+#  for download button tutorial https://youtu.be/y7eDZMSPN-8
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, StreamingHttpResponse
 from .models import user_info
 from .models import *
 # from .forms import DocumentForm
@@ -11,6 +12,11 @@ from .forms import UploadFileForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from data_app1.download_video import Download_Video
+import os
+from wsgiref.util import FileWrapper
+import mimetypes
+import glob
+
 
 @login_required(redirect_field_name="login.html")
 # Create your views here.
@@ -119,8 +125,72 @@ def SongHome(request):
 def downloadHome(request):
     return render(request, "download_video.html")
 
+def get_playlist_url(request, only_list = ''):
+    obj1 = Download_Video()
 
-def download_video_view(request):
+    # getting playlist url from code
+    playlist_url = ''
+    if request.method == 'POST':
+        playlist_url = request.POST.get('YoutubeURL')
+        save_path = "testing_video"
+
+        print("playlist url:- ", playlist_url)
+
+        if only_list:
+            return get_playlist_url
+        
+    return render(request, "playlist_url.html", {'playlist_url':get_playlist_url})
+
+
+
+def download_video_view(obj1, playlist_url, save_path):
+        dict_video = {}
+        if "playlist" in playlist_url:
+            # Define the parameters
+            # playlist_url = "https://wz1cgxiH5KCBsyQij1HsPtGww.youtube.com/playlist?list=PL0b6OzIxLPb"
+            # playlist_url = "https://www.youtube.com/playlist?list=PLVBKjEIdL9bsgfTLn9AihqIKXYH8y33cS"
+
+            # Checking the url playlist
+            list_url = obj1.get_playlist_urls(playlist_url, only_list = True)
+
+            print(list_url)
+
+            # cleaning the spaces inside url
+            list_url = [url.strip() for url in list_url]
+
+            print('Number Of Videos In playlist: %s' % len(list_url))
+
+            for index, url in enumerate(list_url):
+                print(str(index+1)+") "+ url)
+
+                dict_video['title'] = obj1.title_video(playlist_url)
+                dict_video['url'] = playlist_url
+
+                # here strip is required to pass clean url
+                obj1.Download(url, save_path)
+            # return HttpResponse("Downloading is successfully Done! Please check the saved folder for same.")
+            # return render(request, "download_video.html")
+        
+        elif playlist_url != "":
+            playlist_url = playlist_url.strip()
+
+            print("Downloading video from single URL:-", playlist_url)
+            print("Title of Video:-", obj1.title_video(playlist_url))
+            dict_video['title'] = obj1.title_video(playlist_url)
+            dict_video['url'] = playlist_url
+            obj1.Download(playlist_url, save_path)
+
+            print("Download is completed, please feel free to check folder structure for same.")
+            # return render(request, "download_video.html")
+
+        return dict_video
+
+    # return render(request, "download_video.html")
+    # return redirect(request.META['HTTP_REFERER'])
+
+        
+    
+def download_file_view(request):
     # Initialize the object 
     obj1 = Download_Video()
 
@@ -128,27 +198,33 @@ def download_video_view(request):
     playlist_url = ''
     if request.method == 'POST':
         playlist_url = request.POST.get('YoutubeURL')
+        save_path = "testing_video"
 
+        print("playlist url:- ", playlist_url)
 
-    # Define the parameters
-    # playlist_url = "https://wz1cgxiH5KCBsyQij1HsPtGww.youtube.com/playlist?list=PL0b6OzIxLPb"
-    # playlist_url = "https://www.youtube.com/playlist?list=PLVBKjEIdL9bsgfTLn9AihqIKXYH8y33cS"
-    save_path = "testing_video"
+        dict_video = download_video_view(obj1, playlist_url, save_path)
 
-    # Checking the url playlist
-    list_url = obj1.get_playlist_urls(playlist_url)
+        # download_video_view()
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        test_path = os.path.abspath(__file__)
+        print(test_path)
+        print("base directory", base_dir)
+        # filename = "DARK Tantrik Ritual You Must Never Try shorts.mp4"
+        # filepath = base_dir +"/testing_video/"+ filename
+        list_of_files = glob.glob(base_dir +"/testing_video/*") # * means all if need specific format then *.csv
+        latest_file = max(list_of_files, key=os.path.getctime)
+        latest_file = str(latest_file.split('/')[-1])
+        print("Important Latest files",latest_file)
+        filepath = base_dir +"/testing_video/"+ latest_file
+        thefile = filepath
+        filename = os.path.basename(thefile)
+        chunk_size = 8192
+        response = StreamingHttpResponse(FileWrapper(open(thefile, 'rb'), chunk_size),
+                                        content_type = mimetypes.guess_type(thefile)[0])
+        response['Content-Length'] = os.path.getsize(thefile)
+        response['Content-Disposition'] = "Attachment;filename=%s"%dict_video['title']+".mp4"
 
-    print(list_url)
-    # cleaning the spaces inside url
-    list_url = [url.strip() for url in list_url]
+    return response
 
-    print('Number Of Videos In playlist: %s' % len(list_url))
-
-    for index, url in enumerate(list_url):
-        print(str(index+1)+") "+ url)
-
-        # here strip is required to pass clean url
-        obj1.Download(url, save_path)
-    return HttpResponse("Downloading is successfully Done! Please check the saved folder for same.")
 
 

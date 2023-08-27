@@ -12,6 +12,15 @@ class Download_Video:
         except:
             print("An Error has occured")
         print("Download is completed successfully")
+        return 
+    
+    def title_video(self, link):
+        youtubeObject = YouTube(link)
+        return youtubeObject.title
+    
+    def thumbnail_url(self, link):
+        youtubeObject = YouTube(link)
+        return youtubeObject.thumbnail_url
 
     def get_playlist_urls(self, playlist_url):
         playlist = Playlist(playlist_url)
@@ -32,25 +41,3 @@ class Download_Video:
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
-# # Initialize the object 
-# obj1 = Download_Video()
-
-# # Define the parameters
-# # playlist_url = "https://wz1cgxiH5KCBsyQij1HsPtGww.youtube.com/playlist?list=PL0b6OzIxLPb"
-# playlist_url = "https://www.youtube.com/playlist?list=PLVBKjEIdL9bsgfTLn9AihqIKXYH8y33cS"
-# save_path = "testing_video"
-
-# # Checking the url playlist
-# list_url = obj1.get_playlist_urls(playlist_url)
-
-# print(list_url)
-# # cleaning the spaces inside url
-# list_url = [url.strip() for url in list_url]
-
-# print('Number Of Videos In playlist: %s' % len(list_url))
-
-# for index, url in enumerate(list_url):
-#     print(str(index+1)+") "+ url)
-
-#     # here strip is required to pass clean url
-#     obj1.Download(url, save_path)

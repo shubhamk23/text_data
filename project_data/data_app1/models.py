@@ -32,3 +32,11 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title
+    
+class video_downloaded_saved(models.Model):
+    auto_increment_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100, null=True)
+    thumbnail_url = models.CharField(max_length=100, null=True)
+    video_link = models.CharField(max_length=1000, null=True)
+    playlist_name = models.CharField(max_length=100, null=True)
+    

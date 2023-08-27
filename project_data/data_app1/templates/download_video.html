@@ -6,6 +6,13 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <title>Video Download</title>
+    <style>
+        .videoinput {
+                    text-align: center;
+                    border: 3px solid green;
+                }
+                
+    </style>
 </head>
 <body>
     <ul class="navbar">
@@ -32,11 +39,12 @@
     
     
     <div class="videoinput">
-        <form action="{% url 'download_video' %}" method="post">
+        <form action="{% url 'download_file' %}" method="post">
             {% csrf_token %} 
-            <label>Enter the URL</label>
-            <input type="text" placeholder="Enter URL" id="YoutubeURL" name="YoutubeURL">
-            <button type="submit">Submit</button>
+            <h4><label>Enter the URL</label><br></h4>
+            <input type="text" placeholder="Enter URL" id="YoutubeURL" name="YoutubeURL" style="width: 50%; padding: 20px;"><br><br>
+            <button type="submit">Submit</button><br>
+            <!-- <a href="download_file/">Download File</a> -->
         </form>
     </div>
     

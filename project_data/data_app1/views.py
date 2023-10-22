@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, StreamingHttpResponse
+from django.http import HttpResponse
 from .models import user_info
 from .models import *
 # from .forms import DocumentForm
@@ -12,8 +12,6 @@ from pytube import YouTube
 import ssl
 ssl._create_default_https_context = ssl._create_stdlib_context
 
-
-@login_required(redirect_field_name="login.html")
 # Create your views here.
 def home(request):
     return render(request, "home.html")
@@ -25,11 +23,23 @@ def about(request):
     
     return render(request, "about.html", {'info':data})
 
+# def upload_document(request):
+#     print("Uploading a file")
+#     if request.method == 'POST':
+#         form = DocumentForm(request.POST, request.FILES)
+#         print("Inside form")
+#         if form.is_valid():
+#             # Process the uploaded file (you can save it to the MEDIA_ROOT)
+#             form.save()
+#             return render(request, 'success.html', {'data':content})
+#     else:
+#         form = DocumentForm()
+#     return render(request, 'upload_document.html', {'form': form})
 
 def upload_document(request):
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
-        
+
         username = request.POST.get('username')
         print("Username of records", username)
         # getting the file name from request method == POST and attribute as FILES
@@ -126,6 +136,5 @@ def download_file_ytb(request):
         yt.streams.get_highest_resolution().download()
         print("File downloaded sucessfully.")
         return render(request, "download_youtube.html")
-
 
 

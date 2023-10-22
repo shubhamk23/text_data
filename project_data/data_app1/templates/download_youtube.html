@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downloading File from youtube</title>
+</head>
+<body>
+    <h1> Downloading File from Youtube URL</h1>
+    <div class="container">
+        <form action="{% url 'download_file_ytb' %}" method="post">
+      {% csrf_token %}
+            <input class="input-field" type="text" placeholder="Enter your text" name="input-url">
+            <br><br>
+            <button class="submit-button" type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

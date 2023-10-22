@@ -24,19 +24,3 @@ class document_save(models.Model):
     video_file = models.FileField(upload_to='video/', null=True, blank=True)
     # video_file = models.ArrayField(upload_to='video/', null=True)
 
-class Song(models.Model):
-    title = models.CharField(max_length=100)
-    artist = models.CharField(max_length=100)
-    audio_file = models.FileField(upload_to='songs/')
-    # Add more fields as needed (e.g., album, genre, etc.)
-
-    def __str__(self):
-        return self.title
-    
-class video_downloaded_saved(models.Model):
-    auto_increment_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100, null=True)
-    thumbnail_url = models.CharField(max_length=100, null=True)
-    video_link = models.CharField(max_length=1000, null=True)
-    playlist_name = models.CharField(max_length=100, null=True)
-    

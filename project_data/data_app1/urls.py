@@ -9,4 +9,5 @@ urlpatterns = [
     path('signup/',views.SignupPage,name='signup'),
     path('',views.LoginPage,name='login'),
     path('logout/',views.LogoutPage,name='logout'),
+    path('download_file_ytb/', views.download_file_ytb, name='download_file_ytb')
 ]

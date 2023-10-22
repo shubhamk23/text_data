@@ -8,6 +8,9 @@ from .models import user_info
 from .models import *
 # from .forms import DocumentForm
 from .forms import UploadFileForm 
+from pytube import YouTube
+import ssl
+ssl._create_default_https_context = ssl._create_stdlib_context
 
 # Create your views here.
 def home(request):
@@ -120,6 +123,19 @@ def LogoutPage(request):
     print("Logout Successfully Done:- ", result)
     return redirect('login')
 
+def download_file_ytb(request):
+    if request.method == "GET":
+        print("GET call")
+        return render(request, "download_youtube.html")
+    
+    if request.method == "POST":
+        print("Downloading file from youtube")
+        URL1 = request.POST.get('input-url')
+        print("URL:- ", URL1)
+        yt = YouTube(URL1)
+        yt.streams.get_highest_resolution().download()
+        print("File downloaded sucessfully.")
+        return render(request, "download_youtube.html")
 
 
 

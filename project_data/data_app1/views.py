@@ -41,7 +41,7 @@ def upload_document(request):
         form = UploadFileForm(request.POST, request.FILES)
 
         username = request.POST.get('username')
-        print("Username of records", username)
+        print("Username of records :- ", username)
         # getting the file name from request method == POST and attribute as FILES
         # file = ''
         for f in request.FILES.getlist('file'):
